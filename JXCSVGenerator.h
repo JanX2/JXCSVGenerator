@@ -9,16 +9,23 @@
 
 #import <Foundation/Foundation.h>
 
-@interface JXCSVGenerator : NSObject
+@interface JXCSVGenerator : NSObject {
+	NSString *_separator;
+	NSString *_lineEnding;
+}
 
-- (NSString *)stringForCSVArray:(NSArray *)csvArray
-				  cellSeparator:(NSString *)csvSeparator
-					 lineEnding:(NSString *)csvEOL;
+@property (nonatomic, retain) NSString *separator;
+@property (nonatomic, retain) NSString *lineEnding;
+
+- (id)initWithCellSeparator:(NSString *)separator
+				 lineEnding:(NSString *)lineEnding;
++ (id)csvGeneratorWithCellSeparator:(NSString *)separator
+						 lineEnding:(NSString *)lineEnding;
+
+- (NSString *)stringForCSVArray:(NSArray *)csvArray;
 
 
 - (NSData *)dataForCSVArray:(NSArray *)csvArray
-			  cellSeparator:(NSString *)csvSeparator
-				 lineEnding:(NSString *)csvEOL
 				   encoding:(NSStringEncoding)encoding;
 
 @end

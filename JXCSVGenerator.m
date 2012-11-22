@@ -11,14 +11,47 @@
 
 @implementation JXCSVGenerator
 
-- (void)escapeStringForCSV:(NSMutableString *)theString
-			 withSeparator:(NSString *)csvSeparator
-					andEOL:(NSString *)csvEOL
+@synthesize separator = _separator;
+@synthesize lineEnding = _lineEnding;
+
+- (id)initWithCellSeparator:(NSString *)separator
+				 lineEnding:(NSString *)lineEnding;
 {
+	self = [super init];
 	
-	BOOL containsSeparator = ([theString rangeOfString:csvSeparator].location != NSNotFound);
+	if (self) {
+		_separator = [separator retain];
+		_lineEnding = [lineEnding retain];
+	}
+	
+	return self;
+}
+
+
++ (id)csvGeneratorWithCellSeparator:(NSString *)separator
+						 lineEnding:(NSString *)lineEnding;
+{
+	id result = [[[self class] alloc] initWithCellSeparator:separator
+												 lineEnding:lineEnding];
+	
+	return [result autorelease];
+}
+
+
+- (void)dealloc
+{
+	self.separator = nil;
+	self.lineEnding = nil;
+	
+	[super dealloc];
+}
+
+
+- (void)escapeStringForCSV:(NSMutableString *)theString
+{
+	BOOL containsSeparator = ([theString rangeOfString:_separator].location != NSNotFound);
 	BOOL containsQuotes = ([theString rangeOfString:@"\""].location != NSNotFound);
-	BOOL containsLineBreak = ([theString rangeOfString:csvEOL].location != NSNotFound);
+	BOOL containsLineBreak = ([theString rangeOfString:_lineEnding].location != NSNotFound);
 	
 	if (containsQuotes) {
 		[theString replaceOccurrencesOfString:@"\"" withString:@"\"\"" options:NSLiteralSearch range:NSMakeRange(0, [theString length])];
@@ -31,9 +64,7 @@
 }
 
 
-- (NSString *)stringForCSVArray:(NSArray *)csvArray
-				  cellSeparator:(NSString *)csvSeparator
-					 lineEnding:(NSString *)csvEOL;
+- (NSString *)stringForCSVArray:(NSArray *)csvArray;
 {
     NSUInteger columnCount = [[csvArray objectAtIndex:0] count];
     
@@ -45,32 +76,26 @@
 		for (NSString *csvCellString in csvLine) {
 			NSMutableString *tmpString  = [NSMutableString stringWithString:csvCellString];
 			
-			[self escapeStringForCSV:tmpString
-					   withSeparator:csvSeparator
-							  andEOL:csvEOL];
+			[self escapeStringForCSV:tmpString];
 			
 			[rowArray addObject:tmpString];
 		}
 		
-		[outString appendString:[rowArray componentsJoinedByString:csvSeparator]];
-		[outString appendString:csvEOL];
+		[outString appendString:[rowArray componentsJoinedByString:_separator]];
+		[outString appendString:_lineEnding];
 		[rowArray removeAllObjects];
 	}
-    return outString;
+	
+    return [outString autorelease];
 }
 
 - (NSData *)dataForCSVArray:(NSArray *)csvArray
-			  cellSeparator:(NSString *)csvSeparator
-				 lineEnding:(NSString *)csvEOL
 				   encoding:(NSStringEncoding)encoding;
 {
-	NSString *outString = [self stringForCSVArray:csvArray
-									cellSeparator:csvSeparator
-									   lineEnding:csvEOL];
+	NSString *outString = [self stringForCSVArray:csvArray];
     
 	NSData *outData = [outString dataUsingEncoding:encoding];
 	
-	[outString release];
     return outData;
 }
 
