@@ -67,8 +67,7 @@
 - (NSString *)stringForCSVArray:(NSArray *)csvArray;
 {
     NSUInteger columnCount = [[csvArray objectAtIndex:0] count];
-    
-	// Escape all cell’s content and append to outString
+	// Escape all each cell’s content and append to outString
     NSMutableString *outString = [[NSMutableString alloc] init];
 	NSMutableArray *rowArray = [NSMutableArray arrayWithCapacity:columnCount];
 	
