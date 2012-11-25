@@ -19,9 +19,9 @@
 @property (nonatomic, JX_STRONG) NSString *separator;
 @property (nonatomic, JX_STRONG) NSString *lineEnding;
 
-- (id)initWithCellSeparator:(NSString *)separator
+- (instancetype)initWithCellSeparator:(NSString *)separator
 				 lineEnding:(NSString *)lineEnding;
-+ (id)csvGeneratorWithCellSeparator:(NSString *)separator
++ (instancetype)csvGeneratorWithCellSeparator:(NSString *)separator
 						 lineEnding:(NSString *)lineEnding;
 
 // A CSVArray is an array of NSString arrays.

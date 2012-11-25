@@ -14,7 +14,7 @@
 @synthesize separator = _separator;
 @synthesize lineEnding = _lineEnding;
 
-- (id)initWithCellSeparator:(NSString *)separator
+- (instancetype)initWithCellSeparator:(NSString *)separator
 				 lineEnding:(NSString *)lineEnding;
 {
 	self = [super init];
@@ -28,7 +28,7 @@
 }
 
 
-+ (id)csvGeneratorWithCellSeparator:(NSString *)separator
++ (instancetype)csvGeneratorWithCellSeparator:(NSString *)separator
 						 lineEnding:(NSString *)lineEnding;
 {
 	id result = [[[self class] alloc] initWithCellSeparator:separator
