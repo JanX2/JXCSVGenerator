@@ -20,8 +20,8 @@
 	self = [super init];
 	
 	if (self) {
-		_separator = [separator retain];
-		_lineEnding = [lineEnding retain];
+		_separator = JX_RETAIN(separator);
+		_lineEnding = JX_RETAIN(lineEnding);
 	}
 	
 	return self;
@@ -34,10 +34,10 @@
 	id result = [[[self class] alloc] initWithCellSeparator:separator
 												 lineEnding:lineEnding];
 	
-	return [result autorelease];
+	return JX_AUTORELEASE(result);
 }
 
-
+#if (JX_HAS_ARC == 0)
 - (void)dealloc
 {
 	self.separator = nil;
@@ -45,6 +45,7 @@
 	
 	[super dealloc];
 }
+#endif
 
 
 - (void)escapeStringForCSV:(NSMutableString *)theString
@@ -85,7 +86,7 @@
 		[rowArray removeAllObjects];
 	}
 	
-    return [outString autorelease];
+    return JX_AUTORELEASE(outString);
 }
 
 - (NSData *)dataForCSVArray:(NSArray *)csvArray

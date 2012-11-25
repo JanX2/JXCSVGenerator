@@ -9,13 +9,15 @@
 
 #import <Foundation/Foundation.h>
 
+#import "JXArcCompatibilityMacros.h"
+
 @interface JXCSVGenerator : NSObject {
 	NSString *_separator;
 	NSString *_lineEnding;
 }
 
-@property (nonatomic, retain) NSString *separator;
-@property (nonatomic, retain) NSString *lineEnding;
+@property (nonatomic, JX_STRONG) NSString *separator;
+@property (nonatomic, JX_STRONG) NSString *lineEnding;
 
 - (id)initWithCellSeparator:(NSString *)separator
 				 lineEnding:(NSString *)lineEnding;
