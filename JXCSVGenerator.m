@@ -65,7 +65,7 @@
 }
 
 
-- (NSString *)stringForCSVArray:(NSArray *)csvArray;
+- (NSString *)stringForTableMatrix:(NSArray *)csvArray;
 {
     NSUInteger columnCount = [[csvArray objectAtIndex:0] count];
     NSMutableString *outString = [[NSMutableString alloc] init];
@@ -89,10 +89,10 @@
     return JX_AUTORELEASE(outString);
 }
 
-- (NSData *)dataForCSVArray:(NSArray *)csvArray
-				   encoding:(NSStringEncoding)encoding;
+- (NSData *)dataForTableMatrix:(NSArray *)csvArray
+					  encoding:(NSStringEncoding)encoding;
 {
-	NSString *outString = [self stringForCSVArray:csvArray];
+	NSString *outString = [self stringForTableMatrix:csvArray];
     
 	NSData *outData = [outString dataUsingEncoding:encoding];
 	
