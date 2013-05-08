@@ -11,6 +11,8 @@
 
 #import "JXArcCompatibilityMacros.h"
 
+extern NSString * const	JXCSVGeneratorConversionWasLossyNotification;
+
 @interface JXCSVGenerator : NSObject {
 	NSString *_separator;
 	NSString *_lineEnding;
@@ -44,5 +46,9 @@
 
 - (NSData *)dataForTableMatrix:(NSArray *)csvArray
 					  encoding:(NSStringEncoding)encoding;
+
+- (NSData *)dataForTableMatrix:(NSArray *)csvArray
+					  encoding:(NSStringEncoding)encoding
+				 notifyIfLossy:(BOOL)notifyIfLossy;
 
 @end

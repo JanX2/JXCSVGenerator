@@ -9,6 +9,8 @@
 
 #import "JXCSVGenerator.h"
 
+NSString * const	JXCSVGeneratorConversionWasLossyNotification		= @"JXCSVGeneratorConversionWasLossyNotification";
+
 @implementation JXCSVGenerator
 
 @synthesize separator = _separator;
@@ -92,9 +94,33 @@
 - (NSData *)dataForTableMatrix:(NSArray *)csvArray
 					  encoding:(NSStringEncoding)encoding;
 {
+	return [self dataForTableMatrix:csvArray
+						   encoding:encoding
+					  notifyIfLossy:YES];
+}
+
+- (NSData *)dataForTableMatrix:(NSArray *)csvArray
+					  encoding:(NSStringEncoding)encoding
+				 notifyIfLossy:(BOOL)notifyIfLossy;
+{
 	NSString *outString = [self stringForTableMatrix:csvArray];
     
-	NSData *outData = [outString dataUsingEncoding:encoding];
+	NSData *outData= nil;
+	BOOL allowLossyConversion = NO;
+	while (outData == nil) {
+		outData = [outString dataUsingEncoding:encoding
+						  allowLossyConversion:allowLossyConversion];
+		
+		if (outData == nil && allowLossyConversion == NO) {
+			allowLossyConversion = YES;
+			if (notifyIfLossy) {
+				[[NSNotificationCenter defaultCenter] postNotificationName:JXCSVGeneratorConversionWasLossyNotification object:nil];
+			}
+		}
+		else {
+			break;
+		}
+	}
 	
     return outData;
 }
