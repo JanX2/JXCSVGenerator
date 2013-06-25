@@ -58,12 +58,14 @@ NSString * const	JXCSVGeneratorConversionWasLossyNotification		= @"JXCSVGenerato
 	BOOL containsQuotes = (firstQuoteIndex != NSNotFound);
 	BOOL containsLineBreak = ([theString rangeOfString:_lineEnding].location != NSNotFound);
 	
+	BOOL needsQuoting = (containsQuotes || containsSeparator || containsLineBreak);
+	
 	if (containsQuotes) {
 		NSRange searchRange = NSMakeRange(firstQuoteIndex, (theString.length - firstQuoteIndex));
 		[theString replaceOccurrencesOfString:@"\"" withString:@"\"\"" options:NSLiteralSearch range:searchRange];
 	}
 	
-	if (containsQuotes || containsSeparator || containsLineBreak) {
+	if (needsQuoting) {
 		[theString insertString:@"\"" atIndex:0];
 		[theString appendString:@"\""];
 	}
