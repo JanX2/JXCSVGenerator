@@ -17,7 +17,7 @@ NSString * const	JXCSVGeneratorConversionWasLossyNotification		= @"JXCSVGenerato
 @synthesize lineEnding = _lineEnding;
 
 - (instancetype)initWithCellSeparator:(NSString *)separator
-				 lineEnding:(NSString *)lineEnding;
+						   lineEnding:(NSString *)lineEnding;
 {
 	self = [super init];
 	
@@ -31,7 +31,7 @@ NSString * const	JXCSVGeneratorConversionWasLossyNotification		= @"JXCSVGenerato
 
 
 + (instancetype)csvGeneratorWithCellSeparator:(NSString *)separator
-						 lineEnding:(NSString *)lineEnding;
+								   lineEnding:(NSString *)lineEnding;
 {
 	id result = [[[self class] alloc] initWithCellSeparator:separator
 												 lineEnding:lineEnding];

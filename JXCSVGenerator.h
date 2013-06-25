@@ -22,9 +22,9 @@ extern NSString * const	JXCSVGeneratorConversionWasLossyNotification;
 @property (nonatomic, JX_STRONG) NSString *lineEnding;
 
 - (instancetype)initWithCellSeparator:(NSString *)separator
-				 lineEnding:(NSString *)lineEnding;
+						   lineEnding:(NSString *)lineEnding;
 + (instancetype)csvGeneratorWithCellSeparator:(NSString *)separator
-						 lineEnding:(NSString *)lineEnding;
+								   lineEnding:(NSString *)lineEnding;
 
 // A TableMatrix is an array of arrays.
 // Each subarray contains cell objects.
