@@ -52,12 +52,15 @@ NSString * const	JXCSVGeneratorConversionWasLossyNotification		= @"JXCSVGenerato
 
 - (void)escapeStringForCSV:(NSMutableString *)theString
 {
+	NSUInteger firstQuoteIndex = [theString rangeOfString:@"\""].location;
+	
 	BOOL containsSeparator = ([theString rangeOfString:_separator].location != NSNotFound);
-	BOOL containsQuotes = ([theString rangeOfString:@"\""].location != NSNotFound);
+	BOOL containsQuotes = (firstQuoteIndex != NSNotFound);
 	BOOL containsLineBreak = ([theString rangeOfString:_lineEnding].location != NSNotFound);
 	
 	if (containsQuotes) {
-		[theString replaceOccurrencesOfString:@"\"" withString:@"\"\"" options:NSLiteralSearch range:NSMakeRange(0, [theString length])];
+		NSRange searchRange = NSMakeRange(firstQuoteIndex, (theString.length - firstQuoteIndex));
+		[theString replaceOccurrencesOfString:@"\"" withString:@"\"\"" options:NSLiteralSearch range:searchRange];
 	}
 	
 	if (containsQuotes || containsSeparator || containsLineBreak) {
