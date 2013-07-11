@@ -13,13 +13,27 @@
 
 extern NSString * const	JXCSVGeneratorConversionWasLossyNotification;
 
+#ifndef NS_ENUM
+#	define NS_ENUM(_type, _name) enum _name : _type _name; enum _name : _type
+#endif
+
+typedef NS_ENUM(NSUInteger, JXCSVGeneratorQuoteStyle) {
+	JXCSVGeneratorQuoteStyleDefault = 0,				// Quote cells only when absolutely necessary. Same behavior as Apple Numbers.
+	JXCSVGeneratorQuoteStyleCellsWithWhitespace = 1,	// Quote cells if they contain quote characters or any whitespace. Same behavior as Excel.
+	JXCSVGeneratorQuoteStyleAllCells = NSUIntegerMax
+};
+
 @interface JXCSVGenerator : NSObject {
 	NSString *_separator;
 	NSString *_lineEnding;
+	
+	JXCSVGeneratorQuoteStyle _quoteStyle;
 }
 
 @property (nonatomic, JX_STRONG) NSString *separator;
 @property (nonatomic, JX_STRONG) NSString *lineEnding;
+
+@property (nonatomic, readwrite) JXCSVGeneratorQuoteStyle quoteStyle;
 
 - (instancetype)initWithCellSeparator:(NSString *)separator
 						   lineEnding:(NSString *)lineEnding;

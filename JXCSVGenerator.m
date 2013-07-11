@@ -16,6 +16,8 @@ NSString * const	JXCSVGeneratorConversionWasLossyNotification		= @"JXCSVGenerato
 @synthesize separator = _separator;
 @synthesize lineEnding = _lineEnding;
 
+@synthesize quoteStyle = _quoteStyle;
+
 - (instancetype)initWithCellSeparator:(NSString *)separator
 						   lineEnding:(NSString *)lineEnding;
 {
@@ -53,16 +55,71 @@ NSString * const	JXCSVGeneratorConversionWasLossyNotification		= @"JXCSVGenerato
 - (void)escapeStringForCSV:(NSMutableString *)theString
 {
 	NSUInteger firstQuoteIndex = [theString rangeOfString:@"\""].location;
-	
-	BOOL containsSeparator = ([theString rangeOfString:_separator].location != NSNotFound);
 	BOOL containsQuotes = (firstQuoteIndex != NSNotFound);
-	BOOL containsLineBreak = ([theString rangeOfString:_lineEnding].location != NSNotFound);
 	
-	BOOL needsQuoting = (containsQuotes || containsSeparator || containsLineBreak);
+	BOOL needsQuoting = NO;
 	
 	if (containsQuotes) {
 		NSRange searchRange = NSMakeRange(firstQuoteIndex, (theString.length - firstQuoteIndex));
-		[theString replaceOccurrencesOfString:@"\"" withString:@"\"\"" options:NSLiteralSearch range:searchRange];
+		[theString replaceOccurrencesOfString:@"\""
+								   withString:@"\"\""
+									  options:NSLiteralSearch
+										range:searchRange];
+
+		needsQuoting = YES;
+	}
+	else {
+		switch (_quoteStyle) {
+			case JXCSVGeneratorQuoteStyleDefault:
+			{
+				BOOL containsSeparator = ([theString rangeOfString:_separator].location != NSNotFound);
+				if (containsSeparator) {
+					needsQuoting = YES;
+					break;
+				}
+				
+				BOOL containsLineBreak = ([theString rangeOfString:_lineEnding].location != NSNotFound);
+				if (containsLineBreak) {
+					needsQuoting = YES;
+					break;
+				}
+				
+				break;
+			}
+				
+			case JXCSVGeneratorQuoteStyleCellsWithWhitespace:
+			{
+				BOOL containsSeparator = ([theString rangeOfString:_separator].location != NSNotFound);
+				if (containsSeparator) {
+					needsQuoting = YES;
+					break;
+				}
+				
+				NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+				NSRange firstWhitespaceRange = [theString rangeOfCharacterFromSet:whitespaceCharacterSet];
+				BOOL containsWhitespace = (firstWhitespaceRange.location != NSNotFound);
+				if (containsWhitespace) {
+					needsQuoting = YES;
+					break;
+				}
+
+				break;
+			}
+				
+			case JXCSVGeneratorQuoteStyleAllCells:
+			{
+				needsQuoting = YES;
+				break;
+			}
+				
+			default:
+			{
+				[NSException raise:NSInvalidArgumentException
+							format:@"%ld is not a recognized quote style.", (unsigned long)_quoteStyle];
+				return;
+				break;
+			}
+		}
 	}
 	
 	if (needsQuoting) {
