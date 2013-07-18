@@ -11,6 +11,25 @@
 
 NSString * const	JXCSVGeneratorConversionWasLossyNotification		= @"JXCSVGeneratorConversionWasLossyNotification";
 
+
+NSUInteger supportedQuoteStyles[] = {
+	JXCSVGeneratorQuoteStyleDefault,
+	JXCSVGeneratorQuoteStyleCellsWithWhitespace,
+	JXCSVGeneratorQuoteStyleAllCells
+};
+
+NSString *supportedQuoteStyleNames[] = {
+	@"Like Apple Numbers",
+	@"Like Excel",
+	@"Escape All Cells"
+};
+/* For genstrings:
+ NSLocalizedString(@"Like Apple Numbers", @"JXCSVGenerator Quote Style Name")
+ NSLocalizedString(@"Like Excel", @"JXCSVGenerator Quote Style Name")
+ NSLocalizedString(@"Escape All Cells" @"JXCSVGenerator Quote Style Name")
+ */
+
+
 @implementation JXCSVGenerator
 
 @synthesize separator = _separator;
@@ -185,6 +204,33 @@ NSString * const	JXCSVGeneratorConversionWasLossyNotification		= @"JXCSVGenerato
 	}
 	
     return outData;
+}
+
+#pragma mark -
+#pragma mark Quote Styles
+
++ (NSArray *)supportedQuoteStyles;
+{
+	NSUInteger supportedQuoteStylesCount = sizeof(supportedQuoteStyles)/sizeof(supportedQuoteStyles[0]);
+	NSMutableArray *quoteStylesArray = [NSMutableArray arrayWithCapacity:supportedQuoteStylesCount];
+	for (NSUInteger i = 0; i < supportedQuoteStylesCount; i++) {
+		JXCSVGeneratorQuoteStyle quoteStyle = supportedQuoteStyles[i];
+		[quoteStylesArray addObject:[NSNumber numberWithUnsignedInteger:quoteStyle]];
+	}
+	
+	return quoteStylesArray;
+}
+
++ (NSArray *)supportedQuoteStyleLocalizedNames;
+{
+	NSUInteger supportedQuoteStyleNamesCount = sizeof(supportedQuoteStyleNames)/sizeof(supportedQuoteStyleNames[0]);
+	NSMutableArray *quoteStyleNamesArray = [NSMutableArray arrayWithCapacity:supportedQuoteStyleNamesCount];
+	for (NSUInteger i = 0; i < supportedQuoteStyleNamesCount; i++) {
+		NSString *quoteStyleName = NSLocalizedString(supportedQuoteStyleNames[i], @"JXCSVGenerator Quote Style Name");
+		[quoteStyleNamesArray addObject:quoteStyleName];
+	}
+	
+	return quoteStyleNamesArray;
 }
 
 @end

@@ -65,4 +65,8 @@ typedef NS_ENUM(NSUInteger, JXCSVGeneratorQuoteStyle) {
 					  encoding:(NSStringEncoding)encoding
 				 notifyIfLossy:(BOOL)notifyIfLossy;
 
+
++ (NSArray *)supportedQuoteStyles;
++ (NSArray *)supportedQuoteStyleLocalizedNames;
+
 @end
