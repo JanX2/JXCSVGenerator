@@ -20,6 +20,8 @@ extern NSString * const	JXCSVGeneratorConversionWasLossyNotification;
 typedef NS_ENUM(NSUInteger, JXCSVGeneratorQuoteStyle) {
 	JXCSVGeneratorQuoteStyleDefault = 0,				// Quote cells only when absolutely necessary. Same behavior as Apple Numbers.
 	JXCSVGeneratorQuoteStyleCellsWithWhitespace = 1,	// Quote cells if they contain quote characters or any whitespace. Same behavior as Excel.
+	JXCSVGeneratorQuoteStyleRawCells = 2,				// Don’t quote cells. Be careful with this. Should usually not be exposed to the user.
+	JXCSVGeneratorQuoteStyleTSV = 3,					// Don’t quote cells. Just replace tab characters (illegal in TSV) with “⇥”.
 	JXCSVGeneratorQuoteStyleAllCells = NSUIntegerMax
 };
 

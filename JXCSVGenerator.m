@@ -73,6 +73,18 @@ NSString *supportedQuoteStyleNames[] = {
 
 - (void)escapeStringForCSV:(NSMutableString *)theString
 {
+	if (_quoteStyle == JXCSVGeneratorQuoteStyleRawCells)  return;
+	
+	if (_quoteStyle == JXCSVGeneratorQuoteStyleTSV) {
+		NSRange searchRange = NSMakeRange(0, theString.length);
+		[theString replaceOccurrencesOfString:@"\t"
+								   withString:@"⇥"
+									  options:NSLiteralSearch
+										range:searchRange];
+		
+		return;
+	}
+
 	NSUInteger firstQuoteIndex = [theString rangeOfString:@"\""].location;
 	BOOL containsQuotes = (firstQuoteIndex != NSNotFound);
 	
