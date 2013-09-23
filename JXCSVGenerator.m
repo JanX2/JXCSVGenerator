@@ -162,7 +162,7 @@ NSString *supportedQuoteStyleNames[] = {
 
 - (NSString *)stringForTableMatrix:(NSArray *)csvArray;
 {
-    NSUInteger columnCount = [[csvArray objectAtIndex:0] count];
+    NSUInteger columnCount = csvArray[0].count;
     NSMutableString *outString = [[NSMutableString alloc] init];
 	NSMutableArray *rowArray = [NSMutableArray arrayWithCapacity:columnCount];
 	
@@ -227,7 +227,7 @@ NSString *supportedQuoteStyleNames[] = {
 	NSMutableArray *quoteStylesArray = [NSMutableArray arrayWithCapacity:supportedQuoteStylesCount];
 	for (NSUInteger i = 0; i < supportedQuoteStylesCount; i++) {
 		JXCSVGeneratorQuoteStyle quoteStyle = supportedQuoteStyles[i];
-		[quoteStylesArray addObject:[NSNumber numberWithUnsignedInteger:quoteStyle]];
+		[quoteStylesArray addObject:@(quoteStyle)];
 	}
 	
 	return quoteStylesArray;
