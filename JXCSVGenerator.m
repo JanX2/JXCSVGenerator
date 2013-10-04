@@ -208,7 +208,7 @@ NSString *supportedQuoteStyleNames[] = {
 		if (outData == nil && allowLossyConversion == NO) {
 			allowLossyConversion = YES;
 			if (notifyIfLossy) {
-				[[NSNotificationCenter defaultCenter] postNotificationName:JXCSVGeneratorConversionWasLossyNotification object:nil];
+				[[NSNotificationCenter defaultCenter] postNotificationName:JXCSVGeneratorConversionWasLossyNotification object:self];
 			}
 		}
 		else {
