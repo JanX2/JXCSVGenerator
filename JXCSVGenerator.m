@@ -199,7 +199,7 @@ NSString *supportedQuoteStyleNames[] = {
 {
 	NSString *outString = [self stringForTableMatrix:csvArray];
     
-	NSData *outData= nil;
+	NSData *outData = nil;
 	BOOL allowLossyConversion = NO;
 	while (outData == nil) {
 		outData = [outString dataUsingEncoding:encoding
