@@ -169,12 +169,25 @@ NSString *supportedQuoteStyleNames[] = {
 	
 	// Escape each cell’s content, assemble rows seperated by _separator and append to outString
 	for (NSMutableArray *csvLine in csvArray) {
-		for (NSString *csvCellString in csvLine) {
-			NSMutableString *tmpString  = [NSMutableString stringWithString:csvCellString];
-			
-			[self escapeStringForCSV:tmpString];
+		if (_quoteStyle != JXCSVGeneratorQuoteStyleTSV &&
+			_quoteStyle != JXCSVGeneratorQuoteStyleRawCells &&
+			csvLine.count == 1 &&
+			((NSString *)csvLine[0]).length == 0) {
+			// Add a single quoted empty string to prevent the CSV row from seeming empty,
+			// whenever it consists of a single empty cell.
+			// We can’t do this for TSV, as it does not support quoting.
+			NSMutableString *tmpString  = [NSMutableString stringWithString:@"\"\""];
 			
 			[rowArray addObject:tmpString];
+		}
+		else {
+			for (NSString *csvCellString in csvLine) {
+				NSMutableString *tmpString  = [NSMutableString stringWithString:csvCellString];
+				
+				[self escapeStringForCSV:tmpString];
+				
+				[rowArray addObject:tmpString];
+			}
 		}
 		
 		[outString appendString:[rowArray componentsJoinedByString:_separator]];
