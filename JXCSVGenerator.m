@@ -162,9 +162,9 @@ NSString *supportedQuoteStyleNames[] = {
 
 - (NSString *)stringForTableMatrix:(NSArray *)csvArray;
 {
-    NSMutableArray *csvFirstLine = csvArray[0];
+	NSMutableArray *csvFirstLine = csvArray[0];
 	NSUInteger columnCount = csvFirstLine.count;
-    NSMutableString *outString = [[NSMutableString alloc] init];
+	NSMutableString *outString = [[NSMutableString alloc] init];
 	NSMutableArray *rowArray = [NSMutableArray arrayWithCapacity:columnCount];
 	
 	// Escape each cell’s content, assemble rows seperated by _separator and append to outString
@@ -195,7 +195,7 @@ NSString *supportedQuoteStyleNames[] = {
 		[rowArray removeAllObjects];
 	}
 	
-    return JX_AUTORELEASE(outString);
+	return JX_AUTORELEASE(outString);
 }
 
 - (NSData *)dataForTableMatrix:(NSArray *)csvArray
@@ -211,7 +211,7 @@ NSString *supportedQuoteStyleNames[] = {
 				 notifyIfLossy:(BOOL)notifyIfLossy;
 {
 	NSString *outString = [self stringForTableMatrix:csvArray];
-    
+	
 	NSData *outData = nil;
 	BOOL allowLossyConversion = NO;
 	while (outData == nil) {
@@ -229,7 +229,7 @@ NSString *supportedQuoteStyleNames[] = {
 		}
 	}
 	
-    return outData;
+	return outData;
 }
 
 #pragma mark -
