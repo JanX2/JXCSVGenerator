@@ -182,7 +182,7 @@ NSString *supportedQuoteStyleNames[] = {
 		}
 		else {
 			for (NSString *csvCellString in csvLine) {
-				NSMutableString *tmpString  = [NSMutableString stringWithString:csvCellString];
+				NSMutableString *tmpString = [NSMutableString stringWithString:csvCellString];
 				
 				[self escapeStringForCSV:tmpString];
 				
