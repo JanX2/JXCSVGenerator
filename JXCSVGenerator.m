@@ -162,6 +162,8 @@ NSString *supportedQuoteStyleNames[] = {
 
 - (NSString *)stringForTableMatrix:(NSArray *)csvArray;
 {
+    if (csvArray.count == 0) { return nil; }
+    
 	NSMutableArray *csvFirstLine = csvArray[0];
 	NSUInteger columnCount = csvFirstLine.count;
 	NSMutableString *outString = [[NSMutableString alloc] init];

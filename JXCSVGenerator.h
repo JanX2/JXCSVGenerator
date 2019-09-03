@@ -57,6 +57,7 @@ typedef NS_ENUM(NSUInteger, JXCSVGeneratorQuoteStyle) {
 	];
 #endif
 
+// The following will return `nil` on failure or empty input.
 - (NSString *)stringForTableMatrix:(NSArray *)csvArray;
 
 
@@ -68,6 +69,7 @@ typedef NS_ENUM(NSUInteger, JXCSVGeneratorQuoteStyle) {
 				 notifyIfLossy:(BOOL)notifyIfLossy;
 
 
+// The following will never return `nil`.
 + (NSArray *)supportedQuoteStyles;
 + (NSArray *)supportedQuoteStyleLocalizedNames;
 
